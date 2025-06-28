@@ -31,7 +31,7 @@ export class BookmarkService {
 
     async unmarkFlightAsFavorite(flightNumber: string): Promise<void> {
         if (!(await this.bookmarkRepository.hasFlightAsFavorite(flightNumber))) {
-            throw new Error("Voo não está marcado como favorito");
+            throw new Error("Voo não está marcado como favorito.");
         }
 
         await this.bookmarkRepository.unmarkFlightAsFavorite(flightNumber)
