@@ -8,7 +8,10 @@ export class FlightController {
 
     async getAllFlights(req: Request, res: Response): Promise<any> {
         try {
-            const flights = await this.flightService.getAllFlights();
+            const page = req.query.page ? parseInt(req.query.page as string) : undefined;
+            const pageSize = req.query.pageSize ? parseInt(req.query.pageSize as string) : undefined;
+
+            const flights = await this.flightService.getAllFlights(page, pageSize);
             res.status(200).json(flights);
         } catch (error) {
             console.error("Error fetching flights:", error);
