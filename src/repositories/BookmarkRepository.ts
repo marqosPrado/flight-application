@@ -16,6 +16,10 @@ export class BookmarkRepository {
     }
 
     async unmarkFlightAsFavorite(flightNumber: string): Promise<void> {
-        this.cache.delete(flightNumber);
+        for (const flight of this.cache) {
+            if (flight.flightNumber === flightNumber) {
+                this.cache.delete(flight);
+            }
+        }
     }
 }
