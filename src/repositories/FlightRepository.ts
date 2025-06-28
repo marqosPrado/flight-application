@@ -17,4 +17,16 @@ export class FlightRepository {
         const flightAggregates = await this.repository.find(options);
         return flightAggregates.map(flight => flight.toDomain());
     }
+
+    async getFlightByNumber(flightNumber: string): Promise<Flight | null> {
+        const flightAggregate = await this.repository.findOne({
+            where: { flightNumber },
+        });
+
+        if (!flightAggregate) {
+            return null;
+        }
+
+        return flightAggregate.toDomain();
+    }
 }
