@@ -14,4 +14,12 @@ export class BookmarkRepository {
     async getAllFavorites(): Promise<Flight[]> {
         return Array.from(this.cache);
     }
+
+    async unmarkFlightAsFavorite(flightNumber: string): Promise<void> {
+        for (const flight of this.cache) {
+            if (flight.flightNumber === flightNumber) {
+                this.cache.delete(flight);
+            }
+        }
+    }
 }

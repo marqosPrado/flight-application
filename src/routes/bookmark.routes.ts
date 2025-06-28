@@ -18,6 +18,8 @@ router.post("/", (req: Request, res: Response) => {
     controller.markFlightAsFavorite(req, res)
 });
 
-router.delete("/:flightNumber", (req: Request, res: Response) => {})
+router.delete("/:flightNumber", (req: Request, res: Response) => {
+    controller.unmarkFlightAsFavorite(req, res);
+});
 
 export default router;

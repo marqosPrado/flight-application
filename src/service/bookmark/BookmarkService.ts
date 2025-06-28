@@ -28,4 +28,12 @@ export class BookmarkService {
         const flights = await this.bookmarkRepository.getAllFavorites();
         return FlightDto.fromDomainList(flights);
     }
+
+    async unmarkFlightAsFavorite(flightNumber: string): Promise<void> {
+        if (!(await this.bookmarkRepository.hasFlightAsFavorite(flightNumber))) {
+            throw new Error("Voo não está marcado como favorito.");
+        }
+
+        await this.bookmarkRepository.unmarkFlightAsFavorite(flightNumber)
+    }
 }
