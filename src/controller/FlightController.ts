@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { FlightService } from "../service/flight/FlightService";
+import { FindFlightDto } from "../dto/FindFlightDto";
 
 export class FlightController {
     constructor(
@@ -16,6 +17,32 @@ export class FlightController {
         } catch (error) {
             console.error("Error fetching flights:", error);
             res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async getFlightByOriginDestinationAndDeparture(req: Request, res: Response): Promise<any> {
+        try {
+            const { origin, destination, departure } = req.query;
+            console.log("Query parameters:", { origin, destination, departure });
+
+            const dto = new FindFlightDto(
+                origin as string,
+                destination as string,
+                departure ? new Date(departure as string) : undefined
+            )
+
+            const flights = await this.flightService.getFlightByOriginDestinationAndDeparture(dto);
+            res.status(200).json(flights);
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message.includes("Nenhum voo encontrado com os critérios fornecidos.")) {
+                    res.status(404).json({ message: error.message });
+                } else {
+                    res.status(400).json({ message: error.message });
+                }
+            } else {
+                res.status(500).json({ message: "Internal server error" });
+            }
         }
     }
 }
