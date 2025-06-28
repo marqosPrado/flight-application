@@ -7,8 +7,8 @@ export class FlightService {
         private flightRepository: FlightRepository
     ) {}
 
-    async getAllFlights(): Promise<FlightDto[]> {
-        const flights = await this.flightRepository.getAll();
+    async getAllFlights(page: number | undefined, pageSize: number | undefined): Promise<FlightDto[]> {
+        const flights = await this.flightRepository.getAll(page, pageSize);
         if (flights.length === 0) {
             return [];
         }
