@@ -6,15 +6,13 @@ const app = new App();
 const port: number = 3000;
 
 AppDataSource.initialize()
-    .then((): void => {
-        console.log("Database connection established");
-    })
-    .then( async () => await seedFlight())
-    .then((): void => {
+    .then(async () => {
+        console.log("[*] Banco conectado");
+        await seedFlight();
         app.express.listen(port, () => {
-            console.log(`Server is running on http://localhost:${port}`);
+            console.log(`[*] Servidor rodando em http://localhost:${port}`);
         });
     })
     .catch((error: Error) => {
-        console.error("Error during Data Source initialization", error);
-    })
+        console.error("[*] Falha ao inicializar o servidor:", error);
+    });
