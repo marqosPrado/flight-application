@@ -8,6 +8,7 @@ const service = new FlightService(repository);
 const controller = new FlightController(service);
 
 const router: Router = Router();
-router.get("/", (req: Request, res: Response) => {controller.getAllFlights(req, res)});
+router.get("/", controller.getAllFlights.bind(controller));
+router.get("/search", controller.getFlightByOriginDestinationAndDeparture.bind(controller));
 
 export default router;
