@@ -6,8 +6,15 @@ import { Flight } from "../domain/Flight";
 export class FlightRepository {
     private repository: Repository<FlightAggregate> = AppDataSource.getRepository(FlightAggregate);
 
-    async getAll(): Promise<Flight[]> {
-        const flightAggregates = await this.repository.find();
+    async getAll(page: number | undefined, pageSize: number | undefined): Promise<Flight[]> {
+        const options: any = {};
+
+        if (pageSize !== undefined && pageSize > 0) {
+            options.take = pageSize;
+            options.skip = (page && page > 0) ? (page - 1) * pageSize : 0;
+        }
+        
+        const flightAggregates = await this.repository.find(options);
         return flightAggregates.map(flight => flight.toDomain());
     }
 }
