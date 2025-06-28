@@ -29,4 +29,18 @@ export class FlightRepository {
 
         return flightAggregate.toDomain();
     }
+
+    async getFlightByOriginDestinationAndDeparture(
+        origin: string,
+        destination: string,
+        departure?: Date
+    ): Promise<Flight[]> {
+        const where: Record<string, any> = { origin, destination };
+        if (departure) {
+            where.departure = departure;
+        }
+
+        const flightAggregates = await this.repository.find({ where });
+        return flightAggregates.map(flight => flight.toDomain());
+    }
 }
