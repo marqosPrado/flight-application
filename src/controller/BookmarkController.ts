@@ -34,6 +34,15 @@ export class BookmarkController {
         }
     }
 
+    async getBookmarkedFlights(_: Request, res: Response): Promise<void> {
+        try {
+            const flights = await this.bookmarkService.getAllBookmarks();
+            res.status(200).json(flights);
+        } catch (error) {
+            res.status(500).json({ msg: "Erro ao buscar voos favoritos" });
+        }
+    }
+
     async unmarkFlightAsFavorite(req: Request, res: Response): Promise<void> {
         const { flightNumber } = req.body;
 

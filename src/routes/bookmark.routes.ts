@@ -10,7 +10,9 @@ const service = new BookmarkService(flightRepository, bookmarkRespository);
 const controller = new BookmarkController(service);
 
 const router: Router = Router();
-router.get("/", (req: Request, res: Response) => {});
+router.get("/", (req: Request, res: Response) => {
+    controller.getBookmarkedFlights(req, res);
+});
 
 router.post("/", (req: Request, res: Response) => { 
     controller.markFlightAsFavorite(req, res)
