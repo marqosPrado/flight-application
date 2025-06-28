@@ -10,4 +10,8 @@ export class BookmarkRepository {
     async hasFlightAsFavorite(flightNumber: string): Promise<boolean> {
         return this.cache.has(flightNumber);
     }
+
+    async unmarkFlightAsFavorite(flightNumber: string): Promise<void> {
+        this.cache.delete(flightNumber);
+    }
 }
