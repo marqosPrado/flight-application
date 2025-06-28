@@ -1,4 +1,5 @@
 import { Flight } from "../../domain/Flight";
+import { FlightDto } from "../../dto/FlightsDto";
 import { FlightRepository } from "../../repositories/FlightRepository";
 
 export class FlightService {
@@ -6,7 +7,11 @@ export class FlightService {
         private flightRepository: FlightRepository
     ) {}
 
-    async getAllFlights(): Promise<Flight[]> {
-        return this.flightRepository.getAll();
+    async getAllFlights(): Promise<FlightDto[]> {
+        const flights = await this.flightRepository.getAll();
+        if (flights.length === 0) {
+            return [];
+        }
+        return FlightDto.fromDomainList(flights);
     }
 }
