@@ -11,6 +11,7 @@ export class FlightController {
             const flights = await this.flightService.getAllFlights();
             res.status(200).json(flights);
         } catch (error) {
+            console.error("Error fetching flights:", error);
             res.status(500).json({ message: "Internal server error" });
         }
     }
