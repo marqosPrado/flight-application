@@ -8,12 +8,7 @@ export class BookmarkRepository {
     }
 
     async hasFlightAsFavorite(flightNumber: string): Promise<boolean> {
-        for (const flight of this.cache) {
-            if (flight.flightNumber === flightNumber) {
-                return true;
-            }
-        }
-        return false;
+        return Array.from(this.cache).some(flight => flight.flightNumber === flightNumber);
     }
 
     async getAllFavorites(): Promise<Flight[]> {
