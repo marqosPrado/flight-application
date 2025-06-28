@@ -1,3 +1,4 @@
+import { FlightDto } from "../../dto/FlightsDto";
 import { BookmarkRepository } from "../../repositories/BookmarkRepository";
 import { FlightRepository } from "../../repositories/FlightRepository";
 
@@ -21,5 +22,10 @@ export class BookmarkService {
         }
 
         await this.bookmarkRepository.markFlightAsFavorite(flight);
+    }
+
+    async getAllBookmarks(): Promise<FlightDto[]> {
+        const flights = await this.bookmarkRepository.getAllFavorites();
+        return FlightDto.fromDomainList(flights);
     }
 }
