@@ -1,12 +1,12 @@
 export class Flight {
     private readonly _id: number;
-    private _flightNumber: string;
-    private _airline: string;
-    private _origin: string;
-    private _destination: string;
-    private _departure: Date;
-    private _arrival: Date;
-    private _price: number;
+    private _flightNumber: string = '';
+    private _airline: string = '';
+    private _origin: string = '';
+    private _destination: string = '';
+    private _departure: Date = new Date();
+    private _arrival: Date = new Date();
+    private _price: number = 0;
 
     private constructor(
         flightNumber: string,
@@ -19,13 +19,13 @@ export class Flight {
         id?: number
     ) {
         this._id = id ? id : Math.floor(Math.random() * 10000);
-        this._flightNumber = flightNumber;
-        this._airline = airline;
-        this._origin = origin;
-        this._destination = destination;
-        this._departure = departure;
-        this._arrival = arrival;
-        this._price = price;
+        this.flightNumber = flightNumber;
+        this.airline = airline;
+        this.origin = origin;
+        this.destination = destination;
+        this.departure = departure;
+        this.arrival = arrival;
+        this.price = price;
     }
 
     static create(
@@ -59,7 +59,10 @@ export class Flight {
     }
 
     set flightNumber(value: string) {
-        this._flightNumber = value;
+        if (!value || value.length === 0) {
+            throw new Error("Flight number cannot be empty");
+        }
+        this._flightNumber = value.trim();
     }
 
     get airline(): string {
@@ -67,7 +70,10 @@ export class Flight {
     }
 
     set airline(value: string) {
-        this._airline = value;
+        if (!value || value.length === 0) {
+            throw new Error("Airline não pode ser vazio");
+        }
+        this._airline = value.trim();
     }
 
     get origin(): string {
@@ -75,7 +81,10 @@ export class Flight {
     }
 
     set origin(value: string) {
-        this._origin = value;
+        if (!value || value.length !== 3) {
+            throw new Error("Origem deve ter exatamente 3 caracteres");
+        }
+        this._origin = value.trim().toUpperCase();
     }
 
     get destination(): string {
@@ -83,7 +92,10 @@ export class Flight {
     }
 
     set destination(value: string) {
-        this._destination = value;
+        if (!value || value.length !== 3) {
+            throw new Error("Destino deve ter exatamente 3 caracteres");
+        }
+        this._destination = value.trim().toUpperCase();
     }
 
     get departure(): Date {
@@ -91,6 +103,9 @@ export class Flight {
     }
 
     set departure(value: Date) {
+        if (!(value instanceof Date) || isNaN(value.getTime())) {
+            throw new Error("Data de partida inválida");
+        }
         this._departure = value;
     }
 
@@ -99,6 +114,9 @@ export class Flight {
     }
     
     set arrival(value: Date) {
+        if (!(value instanceof Date) || isNaN(value.getTime())) {
+            throw new Error("Data de chegada inválida");
+        }
         this._arrival = value;
     }
 
@@ -107,6 +125,9 @@ export class Flight {
     }
 
     set price(value: number) {
+        if (value < 0) {
+            throw new Error("Preço deve ser um número positivo");
+        }
         this._price = value;
     }
 }
