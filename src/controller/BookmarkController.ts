@@ -44,7 +44,7 @@ export class BookmarkController {
     }
 
     async unmarkFlightAsFavorite(req: Request, res: Response): Promise<void> {
-        const { flightNumber } = req.body;
+        const { flightNumber } = req.params;
 
         if (typeof flightNumber !== 'string' || flightNumber.trim().length === 0) {
             res.status(400).json({ msg: "Número do voo é obrigatório" });
@@ -56,7 +56,7 @@ export class BookmarkController {
             res.status(200).json({ msg: "Voo desmarcado como favorito com sucesso" });
         } catch (error) {
             if (error instanceof Error) {
-                if (error.message === "Voo não está marcado como favorito") {
+                if (error.message === "Voo não está marcado como favorito.") {
                     res.status(404).json({ msg: error.message });
                 }
             } else {
