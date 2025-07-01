@@ -8,12 +8,13 @@ export class FlightService {
         private flightRepository: FlightRepository
     ) {}
 
-    async getAllFlights(page: number | undefined, pageSize: number | undefined): Promise<FlightDto[]> {
+    async getAllFlights(page: number | undefined, pageSize: number | undefined): Promise<{ data: FlightDto[], total: number }> {
         const flights = await this.flightRepository.getAll(page, pageSize);
-        if (flights.length === 0) {
-            return [];
+        if (flights.data.length === 0) {
+            return { data: [], total: flights.total };
         }
-        return FlightDto.fromDomainList(flights);
+        const flightDtos = FlightDto.fromDomainList(flights.data);
+        return { data: flightDtos, total: flights.total };
     }
 
     async getFlightByOriginDestinationAndDeparture(findFlightDto: FindFlightDto): Promise<FlightDto[]> {
@@ -21,9 +22,9 @@ export class FlightService {
         const currentDate = new Date();
         currentDate.setMilliseconds(0);
 
-        if (flightDate && flightDate.getTime() < currentDate.getTime()) {
-            throw new Error("A data de partida não pode ser no passado.");
-        }
+        // if (flightDate && flightDate.getTime() < currentDate.getTime()) {
+        //     throw new Error("A data de partida não pode ser no passado.");
+        // }
         
         const flights: Flight[] | null = await this.flightRepository.getFlightByOriginDestinationAndDeparture(
             findFlightDto.origin,
