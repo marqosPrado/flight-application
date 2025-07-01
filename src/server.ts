@@ -3,7 +3,7 @@ import {AppDataSource} from "./config/database/data-source";
 import {seedFlight} from "./seed";
 
 const app = new App();
-const port: number = 3000;
+const port: number = 3001;
 
 AppDataSource.initialize()
     .then(async () => {
