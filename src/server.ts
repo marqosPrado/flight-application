@@ -8,8 +8,8 @@ const port: number = 3001;
 AppDataSource.initialize()
     .then(async () => {
         console.log("[*] Banco conectado");
-        await seedFlight();
         await AppDataSource.runMigrations();
+        await seedFlight();
         app.express.listen(port, () => {
             console.log(`[*] Servidor rodando em http://localhost:${port}`);
         });
