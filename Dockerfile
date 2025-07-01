@@ -12,8 +12,5 @@ RUN npm run build
 
 EXPOSE 3001
 
-RUN npm run migration:generate && \
-    npm run migration:run 
-
-CMD ["node", "dist/server.js"]
+CMD ["npm", "run", "start:prod"]
 
