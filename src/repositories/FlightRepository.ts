@@ -7,7 +7,13 @@ export class FlightRepository {
     private repository: Repository<FlightAggregate> = AppDataSource.getRepository(FlightAggregate);
 
     async getAll(page: number | undefined, pageSize: number | undefined): Promise<{ data: Flight[], total: number }> {
-        const options: any = {};
+        const options: {
+            take?: number;
+            skip?: number;
+            order?: Record<string, "ASC" | "DESC">;
+        } = {
+            order: { departure: 'DESC' }
+        };
 
         if (pageSize !== undefined && pageSize > 0) {
             options.take = pageSize;
@@ -47,7 +53,10 @@ export class FlightRepository {
             where.departure = Between(startOfDay, endOfDay);
         }
 
-        const flightAggregates = await this.repository.find({ where });
+        const flightAggregates = await this.repository.find({ 
+            where,
+            order: { departure: 'DESC' }
+        });
         return flightAggregates.map(flight => flight.toDomain());
     }
 }
