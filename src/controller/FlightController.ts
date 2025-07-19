@@ -45,4 +45,23 @@ export class FlightController {
             }
         }
     }
+
+    async getFlightByNumber(req: Request, res: Response): Promise<any> {
+        try {
+            const flightNumber = req.params.flightNumber;
+
+            const flight = await this.flightService.getFlightByNumber(flightNumber);
+            res.status(200).json(flight);
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message.includes("Voo não encontrado")) {
+                    res.status(404).json({ message: error.message });
+                } else {
+                    res.status(400).json({ message: error.message });
+                }
+            } else {
+                res.status(500).json({ message: "Internal server error" });
+            }
+        }
+    }
 }

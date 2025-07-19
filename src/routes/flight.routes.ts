@@ -10,5 +10,6 @@ const controller = new FlightController(service);
 const router: Router = Router();
 router.get("/", controller.getAllFlights.bind(controller));
 router.get("/search", controller.getFlightByOriginDestinationAndDeparture.bind(controller));
+router.get("/:flightNumber", controller.getFlightByNumber.bind(controller));
 
 export default router;
