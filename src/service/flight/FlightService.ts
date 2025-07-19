@@ -38,4 +38,12 @@ export class FlightService {
 
         return FlightDto.fromDomainList(flights);
     }
+
+    async getFlightByNumber(flightNumber: string): Promise<FlightDto> {
+        const flight: Flight | null = await this.flightRepository.getFlightByNumber(flightNumber);
+        if (!flight) {
+            throw new Error("Voo não encontrado");
+        }
+        return FlightDto.fromDomain(flight);
+    }
 }
